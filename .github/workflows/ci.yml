@@ -24,7 +24,7 @@ jobs:
       - run: npm ci
       - run: npm run publish:check
 
-  worker-dry-run:
+  install-site:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,4 +33,6 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run site:check
+      - run: npm run site:build
+      - run: node scripts/check-install-site.mjs
+      - run: node --check worker/index.js
