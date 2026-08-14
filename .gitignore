@@ -1,0 +1,12 @@
+node_modules/
+.site-dist/
+.wrangler/
+.env
+.env.*
+!.env.example
+*.log
+*.tgz
+outputs/
+coverage/
+.DS_Store
+Thumbs.db

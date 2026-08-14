@@ -1,0 +1,49 @@
+{
+  "name": "image-studio-codex-skill",
+  "version": "0.1.1",
+  "description": "Cross-platform AI agent Skill and CLI for the Image-studio OpenAI-compatible Images API client",
+  "type": "module",
+  "bin": {
+    "image-studio": "bin/image-studio.mjs"
+  },
+  "files": [
+    "bin/image-studio.mjs",
+    "lib/cli.mjs",
+    "SKILL.md",
+    "README.md",
+    "PUBLISHING.md",
+    "INSTALL.md",
+    "install.ps1",
+    "install.sh"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "node --check bin/image-studio.mjs && node --check lib/cli.mjs && node --check test/cli.test.mjs",
+    "test": "node test/cli.test.mjs",
+    "pack:check": "npm pack --dry-run",
+    "publish:check": "npm run check && npm test && npm pack --dry-run",
+    "prepublishOnly": "npm run publish:check",
+    "site:build": "node scripts/build-install-site.mjs",
+    "site:dev": "npm run site:build && npx --yes wrangler@4.122.0 dev",
+    "site:deploy": "npm run site:build && npx --yes wrangler@4.122.0 deploy",
+    "site:check": "npm run site:build && npx --yes wrangler@4.122.0 deploy --dry-run"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ding-1988/image-studio-skill.git"
+  },
+  "homepage": "https://image-studio.api-info.net/",
+  "bugs": {
+    "url": "https://github.com/ding-1988/image-studio-skill/issues"
+  },
+  "keywords": [
+    "codex",
+    "skill",
+    "image-generation",
+    "openai-compatible",
+    "ai-agent"
+  ]
+}

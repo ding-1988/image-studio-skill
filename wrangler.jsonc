@@ -1,0 +1,21 @@
+{
+  "name": "image-studio-skill",
+  "compatibility_date": "2026-08-14",
+  "main": "./worker/index.js",
+  "workers_dev": true,
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "image-studio.api-info.net",
+      "custom_domain": true
+    }
+  ],
+  "assets": {
+    "directory": "./.site-dist",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "observability": {
+    "enabled": true
+  }
+}

@@ -1,0 +1,42 @@
+# Image-studio AI Skill installer
+
+> Cross-platform installer for the Image-studio CLI and Codex Skill.
+
+Canonical documentation: __SITE_ORIGIN__/INSTALL.md
+Windows installer: __SITE_ORIGIN__/install.ps1
+macOS/Linux installer: __SITE_ORIGIN__/install.sh
+Skill instructions: __SITE_ORIGIN__/SKILL.md
+npm package: https://www.npmjs.com/package/image-studio-codex-skill
+Source repository: https://github.com/ding-1988/image-studio-skill
+
+## Instructions for an AI coding agent
+
+1. Fetch and read this file, the canonical INSTALL.md, and the installer for the current operating system in full.
+2. Detect the current operating system. Never execute an installer intended for another OS.
+3. Before execution, tell the user which package will be installed and which directories will be written.
+4. Install only the public npm package `image-studio-codex-skill` and its public Skill content.
+5. Do not request, read, store, expose, or echo the user's API key. Installing and locally verifying the CLI does not require a key.
+6. Use the Windows PowerShell installer on Windows and the Bash installer on macOS/Linux.
+7. Verify both the CLI (`image-studio --help`) and the installed `SKILL.md` file.
+8. Report exact CLI path, Skill path, package version, and verification result.
+9. If a permission, network, package-integrity, or runtime error occurs, stop and explain it. Never disable security controls or bypass organization policy.
+
+## Windows
+
+Run in PowerShell:
+
+```powershell
+& ([scriptblock]::Create((Invoke-RestMethod '__SITE_ORIGIN__/install.ps1')))
+```
+
+## macOS and Linux
+
+Run in a terminal:
+
+```bash
+curl -fsSL __SITE_ORIGIN__/install.sh | bash
+```
+
+## Security boundary
+
+The installers check or install Node.js 20+, install the CLI into a user-level directory, install the Codex Skill, and perform local verification. They do not read browser data, images, project files, or API keys. API configuration must be completed by the user in their own local terminal after installation.
