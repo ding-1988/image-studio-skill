@@ -1,6 +1,6 @@
 ---
 title: Image-studio AI Skill 一键安装
-description: 在 Windows、macOS 或 Linux 上安装 Image-studio CLI 与 Codex Skill，并执行安装后验证。
+description: 在 Windows、macOS 或 Linux 上安装 Image-studio CLI 与 Codex Skill，支持 GPT Image 2.5 Flare、Sunburst 和兼容入口，并执行安装后验证。
 ---
 
 # Image-studio AI Skill 一键安装
@@ -9,7 +9,7 @@ description: 在 Windows、macOS 或 Linux 上安装 Image-studio CLI 与 Codex 
 >
 > **“读取这个安装页面，识别当前操作系统，先向我说明将运行的命令，再安装 Image-studio Skill 并完成验证。不要索取、读取或回显我的 API Key。”**
 
-Image-studio Skill 让 AI 通过 OpenAI-compatible Images API 执行文生图、图生图、局部编辑和遮罩修复。它不要求打开 Image-studio 桌面客户端。
+Image-studio Skill 让 AI 通过 OpenAI-compatible Images API 执行文生图、图生图、局部编辑和遮罩修复，并可选择 GPT Image 2.5 Flare、Sunburst 或服务商提供的 GPT Image 2.5 兼容入口。它不要求打开 Image-studio 桌面客户端。
 
 - 支持：Windows 10/11、macOS、Linux
 - 运行时：Node.js 20 或更高版本
@@ -179,6 +179,38 @@ $env:OPENAI_BASE_URL = 'https://www.api-info.net/v1'
 export IMAGE_STUDIO_API_KEY='你的 API Key'
 export OPENAI_BASE_URL='https://www.api-info.net/v1'
 ```
+
+## 模型选择与设置
+
+Image-studio CLI 不限制模型名称，会把 `--model` 原样发送到配置的 OpenAI-compatible Images API。可按服务商支持情况使用以下 GPT Image 2.5 模型：
+
+- `gpt-image-2.5-flare`：速度优先，适合日常文生图、图生图和编辑；建议从 `--quality medium` 或 `--quality high` 开始。
+- `gpt-image-2.5-sunburst`：质量与编辑精度优先，适合复杂构图、细节和主体保持；建议使用 `--quality high`、`xhigh` 或 `max`。
+- `gpt-image-2.5`：GPT Image 2.5 兼容入口；它是否存在以及支持哪些参数，必须以当前服务商的 `/models` 返回和 API 响应为准。
+
+先检查当前服务实际开放的同步模型：
+
+```bash
+image-studio models --json
+```
+
+临时选择模型和设置：
+
+```bash
+image-studio generate --model gpt-image-2.5-flare --quality high --size 1024x1024 --prompt "速度优先的日常产品图" --output ./outputs/
+image-studio generate --model gpt-image-2.5-sunburst --quality xhigh --size 1536x1024 --prompt "复杂场景，保持主体细节" --output ./outputs/
+image-studio generate --model gpt-image-2.5 --quality high --prompt "GPT Image 2.5 兼容模型测试" --output ./outputs/
+```
+
+GPT Image 2.5 服务通常支持 `--quality auto|low|medium|high|xhigh|max`、`--size auto` 或常用尺寸 `1024x1024`、`1536x1024`、`1024x1536`，以及 `--format png|jpeg|webp` 和 `--background auto|opaque|transparent`。兼容服务可能只支持其中一部分；如果请求返回参数错误，应按服务商文档调整。
+
+要保存默认模型设置，可以在本机终端执行：
+
+```bash
+image-studio config set --model gpt-image-2.5-flare
+```
+
+也可以在配置文件中设置 `IMAGE_STUDIO_MODEL`。项目默认仍为 `gpt-image-2`，不会自动改变已有配置。
 
 ## 验证安装
 

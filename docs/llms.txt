@@ -9,6 +9,23 @@ Skill instructions: __SITE_ORIGIN__/SKILL.md
 npm package: https://www.npmjs.com/package/image-studio-codex-skill
 Source repository: https://github.com/ding-1988/image-studio-skill
 
+
+## GPT Image 2.5 models
+
+Image-studio passes `--model` through to the configured OpenAI-compatible Images API. The documented model names are:
+
+- `gpt-image-2.5-flare`: speed-first everyday generation and editing.
+- `gpt-image-2.5-sunburst`: quality and editing precision first.
+- `gpt-image-2.5`: a compatibility name that may be exposed by some providers; verify it with `/models` before use.
+
+Typical settings are quality `auto|low|medium|high|xhigh|max`, size `auto` or `1024x1024` / `1536x1024` / `1024x1536`, and output `png|jpeg|webp` with `background auto|opaque|transparent`. Provider support can differ.
+
+```text
+image-studio models --json
+image-studio generate --model gpt-image-2.5-flare --quality high --size 1024x1024 --prompt "速度优先的日常产品图" --output ./outputs/
+image-studio generate --model gpt-image-2.5-sunburst --quality xhigh --size 1536x1024 --prompt "复杂场景，保持主体细节" --output ./outputs/
+image-studio config set --model gpt-image-2.5-flare
+```
 ## Instructions for an AI coding agent
 
 1. Fetch and read this file, the canonical INSTALL.md, and the installer for the current operating system in full.

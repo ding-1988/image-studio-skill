@@ -7,6 +7,7 @@
 - 通过 npm 安装；
 - 通过 OpenAI-compatible Images API 调用；
 - 支持文生图、图生图、局部编辑和遮罩；
+- 支持通过 `--model` 使用 `gpt-image-2.5-flare`、`gpt-image-2.5-sunburst`，以及由服务商提供的 `gpt-image-2.5` 兼容入口；
 - API key 只从本地配置、运行时环境变量或显式参数读取，不写入 npm 包；
 - 源码、安装器和 Cloudflare Worker 部署配置均在本仓库公开审查。
 
@@ -116,6 +117,34 @@ $env:OPENAI_BASE_URL = 'https://www.api-info.net/v1'
 ```
 
 不要把真实 API key 放入源码、README、截图、Git 提交或聊天记录。`config show` 只显示脱敏后的 key。
+## 模型选择与设置
+
+CLI 会把 `--model` 原样发送给配置的 OpenAI-compatible Images API。当前文档提供以下三个 GPT Image 2.5 模型名：
+
+| 模型 | 定位 | 推荐设置 |
+|---|---|---|
+| `gpt-image-2.5-flare` | 速度优先的日常文生图、图生图和编辑 | `--quality medium` 或 `--quality high`；需要更高质量时使用 `xhigh` 或 `max` |
+| `gpt-image-2.5-sunburst` | 质量和编辑精度优先，适合复杂构图、细节和主体保持 | `--quality high`、`xhigh` 或 `max` |
+| `gpt-image-2.5` | GPT Image 2.5 兼容入口；是否可用由当前服务商决定 | 先运行 `image-studio models --json`，再按服务商返回的参数使用 |
+
+CLI 同时提供 `generate` 和 `edit` 两条调用路径；某个模型是否支持编辑、以及具体参数范围，由服务商的 `/models` 和 API 返回决定。GPT Image 2.5 服务通常可使用 `--quality auto|low|medium|high|xhigh|max`、`--size auto` 或常用尺寸（如 `1024x1024`、`1536x1024`、`1024x1536`），并可按服务商支持情况设置 `--format png|jpeg|webp` 与 `--background auto|opaque|transparent`。兼容服务可能只开放其中一部分参数。
+
+临时指定模型：
+
+```bash
+image-studio generate --model gpt-image-2.5-flare --quality high --size 1024x1024 --prompt "一间明亮的工作室，写实摄影风格" --output ./outputs/
+image-studio generate --model gpt-image-2.5-sunburst --quality xhigh --size 1536x1024 --prompt "复杂的产品场景，保留主体细节" --output ./outputs/
+image-studio generate --model gpt-image-2.5 --quality high --prompt "一张简洁的产品图" --output ./outputs/
+```
+
+持久化设置模型：
+
+```bash
+image-studio config set --model gpt-image-2.5-flare
+```
+
+也可以在配置文件或环境变量中设置 `IMAGE_STUDIO_MODEL`。项目默认仍为 `gpt-image-2`，不会覆盖已有用户的配置；只有明确指定上述模型后才会使用 GPT Image 2.5。
+
 ## 调用示例
 
 ```bash

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#0b0e13" />
-  <meta name="description" content="Image-studio AI Skill：适用于 Windows、macOS 和 Linux 的一键安装页面。" />
+  <meta name="description" content="Image-studio AI Skill：跨平台安装 CLI 与 Codex Skill，支持 GPT Image 2.5 Flare、Sunburst 以及 OpenAI-compatible 图像生成与编辑。" />
   <meta name="robots" content="index,follow" />
   <title>Image-studio AI Skill · 一键安装</title>
   <style>
@@ -185,6 +185,11 @@
     footer { margin-top: 30px; padding: 32px 0 46px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
     .footer-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
 
+    .model-settings { margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .model-settings h3 { margin: 0 0 8px; font-size: 17px; }
+    .model-settings p { margin: 0; color: var(--muted); font-size: 14px; }
+    .model-settings pre { min-height: auto; margin-top: 16px; padding: 18px; }
+
     @media (max-width: 780px) {
       .nav a:not(:last-child) { display: none; }
       .hero { padding-top: 52px; }
@@ -206,6 +211,7 @@
     <div class="brand"><span class="logo">IS</span><span>Image-studio Skill</span></div>
     <nav class="nav" aria-label="主导航">
       <a href="#install">安装</a>
+      <a href="#models">模型</a>
       <a href="#ai">交给 AI</a>
       <a href="./INSTALL.md">完整文档</a>
       <a href="https://github.com/ding-1988/image-studio-skill">GitHub ↗</a>
@@ -216,13 +222,16 @@
     <div class="shell hero" id="install">
       <div class="eyebrow"><span class="dot"></span> Cross-platform AI Skill</div>
       <h1>给 AI 装上<br /><span class="gradient-text">真正可执行的图像能力</span></h1>
-      <p class="lead">一条命令安装 Image-studio CLI 与 Codex Skill。支持文生图、参考图编辑、遮罩修复和机器可读结果。</p>
+      <p class="lead">一条命令安装 Image-studio CLI 与 Codex Skill。支持 GPT Image 2.5 Flare、Sunburst、兼容入口，以及文生图、参考图编辑和遮罩修复。</p>
       <div class="chips">
         <span class="chip">Windows 10/11</span>
         <span class="chip">macOS</span>
         <span class="chip">Linux</span>
         <span class="chip">Node.js 20+</span>
         <span class="chip">OpenAI-compatible</span>
+        <span class="chip">GPT Image 2.5 Flare</span>
+        <span class="chip">GPT Image 2.5 Sunburst</span>
+        <span class="chip">GPT Image 2.5</span>
       </div>
 
       <div class="installer">
@@ -242,6 +251,36 @@
         <p class="installer-note">安装到当前用户目录。脚本不会读取或配置 API Key。建议先查看下方源码和完整 Markdown。</p>
       </div>
     </div>
+
+    <section class="shell" id="models">
+      <div class="section-head">
+        <span class="kicker">Model-ready</span>
+        <h2>GPT Image 2.5 模型与设置</h2>
+        <p>CLI 会把 <code>--model</code> 原样发送给配置的 OpenAI-compatible Images API。先检查服务商实际开放的模型，再选择速度、质量或兼容性入口。</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <h3><code>gpt-image-2.5-flare</code></h3>
+          <p>速度优先，适合日常文生图、图生图和快速编辑。建议从 <code>--quality medium</code> 或 <code>--quality high</code> 开始，需要更高质量时再尝试 <code>xhigh</code> 或 <code>max</code>。</p>
+        </article>
+        <article class="card">
+          <h3><code>gpt-image-2.5-sunburst</code></h3>
+          <p>质量和编辑精度优先，适合复杂构图、细节控制和主体保持。建议使用 <code>--quality high</code>、<code>xhigh</code> 或 <code>max</code>。</p>
+        </article>
+        <article class="card">
+          <h3><code>gpt-image-2.5</code></h3>
+          <p>GPT Image 2.5 兼容入口。它是否存在以及支持哪些参数由当前服务商决定，使用前请运行 <code>image-studio models --json</code>。</p>
+        </article>
+      </div>
+      <div class="model-settings">
+        <h3>常用设置</h3>
+        <p>GPT Image 2.5 服务通常支持 <code>auto|low|medium|high|xhigh|max</code> 质量、<code>auto</code> 或 <code>1024x1024</code> / <code>1536x1024</code> / <code>1024x1536</code> 尺寸，以及 PNG、JPEG、WebP 和透明背景。兼容服务可能只开放其中一部分。</p>
+        <pre><code>image-studio models --json
+image-studio generate --model gpt-image-2.5-flare --quality high --size 1024x1024 --prompt "速度优先的日常产品图" --output ./outputs/
+image-studio generate --model gpt-image-2.5-sunburst --quality xhigh --size 1536x1024 --prompt "复杂场景，保持主体细节" --output ./outputs/
+image-studio config set --model gpt-image-2.5-flare</code></pre>
+      </div>
+    </section>
 
     <section class="shell">
       <div class="section-head">

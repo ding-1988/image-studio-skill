@@ -38,6 +38,22 @@ List available synchronous image models:
 image-studio models --json
 ```
 
+## GPT Image 2.5 models
+
+The CLI passes `--model` through unchanged. Choose a model according to the workflow and confirm that the configured provider exposes it:
+
+- `gpt-image-2.5-flare`: speed-first everyday generation and editing. Start with `--quality medium` or `--quality high`.
+- `gpt-image-2.5-sunburst`: quality and editing precision first, for complex compositions, fine detail, and subject preservation. Use `--quality high`, `xhigh`, or `max` when supported.
+- `gpt-image-2.5`: compatibility alias/name requested by some providers. It is not guaranteed to exist; verify it with `image-studio models --json` before using it.
+
+Typical GPT Image 2.5 settings are `--quality auto|low|medium|high|xhigh|max`, `--size auto` or `1024x1024` / `1536x1024` / `1024x1536`, plus `--format png|jpeg|webp` and `--background auto|opaque|transparent`. Compatible providers may expose a smaller subset of these settings.
+
+```text
+image-studio generate --model gpt-image-2.5-flare --quality high --size 1024x1024 --prompt "速度优先的日常产品图" --output ./outputs/
+image-studio generate --model gpt-image-2.5-sunburst --quality xhigh --size 1536x1024 --prompt "复杂场景，保持主体细节" --output ./outputs/
+image-studio config set --model gpt-image-2.5-flare
+```
+
 Generate one or more images:
 
 ```text
